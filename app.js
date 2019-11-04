@@ -4,6 +4,10 @@ const port = 3000
 
 
 
+var ejs = require('ejs');
+
+app.set('view engine', 'ejs');
+
 var ActiveDirectory = require('activedirectory2');
 var config = { url: 'ldap://ad.balkangraph.com',
                baseDN: 'dc=ad,dc=balkangraph,dc=com',
@@ -25,13 +29,19 @@ ad.authenticate(username, password, function(err, auth) {
   }
   
   if (auth) {
-    app.get('/', (req, res) => res.send('Authenticated!'))
+   // app.get('/', (req, res) => res.send('Authenticated!'))
   }
   else {
     console.log('Authentication failed!');
   }
 });
 
+ var printUsers = function(users) {
+
+  app.get('/', (req, res) => res.send(users));
+
+
+ }
 
 var groupName = 'Employees';
  
@@ -43,6 +53,19 @@ var ad = new ActiveDirectory(config);ad.getUsersForGroup(groupName, function(err
  
   if (! users) console.log('Group: ' + groupName + ' not found.');
   else {
-    console.log(JSON.stringify(users));
+
+    var names = [];
+    for (i = 0; i < users.length; i++){
+      var user = users[i];
+      console.log(user['givenName']);
+      app.get('/', function(req, res){
+        res.render('index',{users});
+      });
+  
+    }
+  
+  
+ 
   }
 });
+
