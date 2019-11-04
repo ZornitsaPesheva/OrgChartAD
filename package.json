@@ -1,0 +1,22 @@
+{
+  "name": "orgchartad",
+  "version": "1.0.0",
+  "description": "App to connect OrgChart to active directory",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZornitsaSerbezova/OrgChartAD.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZornitsaSerbezova/OrgChartAD/issues"
+  },
+  "homepage": "https://github.com/ZornitsaSerbezova/OrgChartAD#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
