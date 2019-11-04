@@ -10,8 +10,6 @@ var config = { url: 'ldap://ad.balkangraph.com',
 var ad = new ActiveDirectory(config);
 
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 var ad = new ActiveDirectory(config);
@@ -25,7 +23,7 @@ ad.authenticate(username, password, function(err, auth) {
   }
   
   if (auth) {
-    console.log('Authenticated!');
+    app.get('/', (req, res) => res.send('Authenticated!'))
   }
   else {
     console.log('Authentication failed!');
