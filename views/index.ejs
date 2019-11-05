@@ -20,15 +20,21 @@
       <div id="tree"/>
 
 
-     <% console.log(nodes); %>
-    <!-- //   for (i = 0; i < nodes.lenght; i++)
+    <script>
+      var testNodes = <%- nodes %>;
+        var chart = new OrgChart(document.getElementById("tree"), { 
+          nodeBinding: { 
+            field_0: "name" 
+          },
+          nodes: testNodes
+        });  
 
-      var chart = new OrgChart(document.getElementById("tree"), {
-            nodeBinding: {
-                field_0: "givenName"
-            },
-        });
-     -->
+    //  console.log(test);
+    </script>
+     
+
+
+
        
   </body> 
 </html>

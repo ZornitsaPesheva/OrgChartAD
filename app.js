@@ -19,22 +19,22 @@ var ad = new ActiveDirectory(config);
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 
-var username = 'zorry@ad.balkangraph.com';
-var password = 'qaz123wsx!@#';
+//  var username = 'zorry@ad.balkangraph.com';
+//  var password = 'qaz123wsx!@#';
  
-ad.authenticate(username, password, function(err, auth) {
-  if (err) {
-    console.log('ERROR: '+JSON.stringify(err));
-    return;
-  }
+// ad.authenticate(username, password, function(err, auth) {
+//   if (err) {
+//     console.log('ERROR: '+JSON.stringify(err));
+//     return;
+//   }
   
-  if (auth) {
-   // app.get('/', (req, res) => res.send('Authenticated!'))
-  }
-  else {
-    console.log('Authentication failed!');
-  }
-});
+//   if (auth) {
+//    // app.get('/', (req, res) => res.send('Authenticated!'))
+//   }
+//   else {
+//     console.log('Authentication failed!');
+//   }
+// });
 
  var printUsers = function(users) {
 
@@ -46,6 +46,7 @@ ad.authenticate(username, password, function(err, auth) {
 var groupName = 'Employees';
  
 var ad = new ActiveDirectory(config);
+
 ad.getUsersForGroup(groupName, function(err, users) {
   if (err) {
     console.log('ERROR: ' +JSON.stringify(err));
@@ -55,7 +56,7 @@ ad.getUsersForGroup(groupName, function(err, users) {
   if (! users) console.log('Group: ' + groupName + ' not found.');
   else {
     var nodes = [];
-    //console.log(users);
+
     for (i = 0; i < users.length; i++){
       var user = users[i];
       var u = {};
@@ -63,16 +64,13 @@ ad.getUsersForGroup(groupName, function(err, users) {
       u.name = user['givenName'];
 
       nodes.push(u);
- 
-      app.get('/', function(req, res){
-          res.render('index', { nodes : nodes });
-      });
-  
-    }
-    console.log(nodes);
+     }
+
   }
-  
-  //  app.get('/', (req, res) => res.send(users));
-  
+
+  app.get('/', function(req, res){
+    res.render('index', { nodes : JSON.stringify(nodes) });
+  });
+
 });
 
