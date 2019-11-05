@@ -35,42 +35,146 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 //     console.log('Authentication failed!');
 //   }
 // });
+//----------------------------------------------------------------------------------------------
 
- var printUsers = function(users) {
+// Show users from a group in an OrgChart:
 
-  app.get('/', (req, res) => res.send(users));
+ //var groupName = 'EmployeesOrgChart';
 
-
- }
-
-var groupName = 'Employees';
+// ad.getUsersForGroup(groupName, function(err, users) {
+//   if (err) {
+//     console.log('ERROR: ' +JSON.stringify(err));
+//     return;
+//   }
  
-var ad = new ActiveDirectory(config);
+//   if (! users) console.log('Group: ' + groupName + ' not found.');
+//   else {
+//     var nodes = [];
 
-ad.getUsersForGroup(groupName, function(err, users) {
+//     for (i = 0; i < users.length; i++){
+//       var user = users[i];
+//       var u = {};
+//       u.id = i;
+//       u.name = user['givenName'];
+//       nodes.push(u);
+//      }
+
+//   }
+
+//   app.get('/', function(req, res){
+//     res.render('index', { nodes : JSON.stringify(nodes) });
+//   });
+
+// });
+
+//-----------------------------------------------------------------------------------------------
+
+
+
+// var listOfGroupObjectsToListOfGroups = function(groups) {
+//   var listOfGroups = [];
+//   for (i = 0; i < groups.length; i++) {
+//     var group = groups[i].cn;
+//     listOfGroups.push(group);
+//   }
+//   console.log(listOfGroups);
+// }
+
+
+// var getListOfGroups = function(groupName, callback) {
+
+//   ad.getGroupMembershipForGroup(groupName, function(err, groups) {
+//  //   console.log(groupName);
+//     if (err) {
+//       console.log('ERROR: ' +JSON.stringify(err));
+//       return;
+//     }
+   
+//     if (! groups) console.log('Group: ' + groupName + ' not found.');
+//     else {
+//    //   console.log(JSON.stringify(groups));
+//       callback(groupName, groups);
+//     }
+    
+
+//   });
+ 
+// }
+
+
+
+
+var listMemberships = function(groupsList) {
+  
+  var newGroupList = [];
+
+  for (i = 0; i < groupsList.length; i++) {
+
+      var groupName = groupsList[i].name;
+
+      var list = [];
+     
+
+      ad.getGroupMembershipForGroup(groupName, function(err, groups) { 
+
+        if (err) {
+          console.log('ERROR: ' +JSON.stringify(err));
+          return;
+        }
+      
+        if (! groups) console.log('Group: ' + groupName + ' not found.');
+        else {
+
+         // console.log(JSON.stringify(groups));
+          for (i = 0; i < groups.length; i++) {
+
+            list.push(groups[i].cn); // have to be in callback ?
+          }
+          
+        } 
+
+      });
+
+      groupsList.memberOf = list; 
+      console.log(list);
+  }
+
+
+}
+
+
+var query = 'CN=*OrgChart*';
+ 
+
+ad.findGroups(query, function(err, groups) {
   if (err) {
     console.log('ERROR: ' +JSON.stringify(err));
     return;
   }
  
-  if (! users) console.log('Group: ' + groupName + ' not found.');
+  if ((! groups) || (groups.length == 0)) console.log('No groups found.');
   else {
-    var nodes = [];
 
-    for (i = 0; i < users.length; i++){
-      var user = users[i];
-      var u = {};
-      u.id = i;
-      u.name = user['givenName'];
+    var orgChartGroups = [];
 
-      nodes.push(u);
+    for (i = 0; i < groups.length; i++){
+      var group = groups[i];
+      var g = {};
+      g.id = i;
+      g.name = group['cn'];
+      orgChartGroups.push(g);
      }
 
   }
-
   app.get('/', function(req, res){
-    res.render('index', { nodes : JSON.stringify(nodes) });
+    res.render('index', { orgChartGroups : JSON.stringify(orgChartGroups) });
+  
   });
 
+  console.log(orgChartGroups);
+  listMemberships(orgChartGroups);
+  
 });
 
+
+  

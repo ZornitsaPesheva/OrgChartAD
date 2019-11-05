@@ -21,15 +21,27 @@
 
 
     <script>
+
+     // Show users from a group in an OrgChart:
+<% /* %>
       var testNodes = <%- nodes %>;
-        var chart = new OrgChart(document.getElementById("tree"), { 
+             var chart = new OrgChart(document.getElementById("tree"), { 
           nodeBinding: { 
             field_0: "name" 
           },
           nodes: testNodes
         });  
 
-    //  console.log(test);
+<% */ %>
+
+        var testNodes = <%- orgChartGroups %>;
+             var chart = new OrgChart(document.getElementById("tree"), { 
+          nodeBinding: { 
+            field_0: "name" 
+          },
+          nodes: testNodes
+        });  
+
     </script>
      
 
