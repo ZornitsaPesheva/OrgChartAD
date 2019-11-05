@@ -45,7 +45,8 @@ ad.authenticate(username, password, function(err, auth) {
 
 var groupName = 'Employees';
  
-var ad = new ActiveDirectory(config);ad.getUsersForGroup(groupName, function(err, users) {
+var ad = new ActiveDirectory(config);
+ad.getUsersForGroup(groupName, function(err, users) {
   if (err) {
     console.log('ERROR: ' +JSON.stringify(err));
     return;
@@ -53,19 +54,25 @@ var ad = new ActiveDirectory(config);ad.getUsersForGroup(groupName, function(err
  
   if (! users) console.log('Group: ' + groupName + ' not found.');
   else {
-
-    var names = [];
+    var nodes = [];
+    //console.log(users);
     for (i = 0; i < users.length; i++){
       var user = users[i];
-      console.log(user['givenName']);
+      var u = {};
+      u.id = i;
+      u.name = user['givenName'];
+
+      nodes.push(u);
+ 
       app.get('/', function(req, res){
-        res.render('index',{users});
+          res.render('index', { nodes : nodes });
       });
   
     }
-  
-  
- 
+    console.log(nodes);
   }
+  
+  //  app.get('/', (req, res) => res.send(users));
+  
 });
 

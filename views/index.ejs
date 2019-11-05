@@ -1,8 +1,34 @@
 <html>   
   <head>
-
+    <style>
+      html, body{
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin:0;
+        overflow: hidden;
+        font-family: Helvetica;
+      }
+      #tree{
+        width:100%;
+        height:100%;
+      }
+    </style>
   </head>   
   <body>     
-    <%= users%>;   
+      <script src="https://balkangraph.com/js/latest/OrgChart.js"></script>
+      <div id="tree"/>
+
+
+     <% console.log(nodes); %>
+    <!-- //   for (i = 0; i < nodes.lenght; i++)
+
+      var chart = new OrgChart(document.getElementById("tree"), {
+            nodeBinding: {
+                field_0: "givenName"
+            },
+        });
+     -->
+       
   </body> 
 </html>
