@@ -9,19 +9,26 @@ var ejs = require('ejs');
 app.set('view engine', 'ejs');
 
 var ActiveDirectory = require('activedirectory2');
-var config = { url: 'ldap://ad.balkangraph.com',
-               baseDN: 'dc=ad,dc=balkangraph,dc=com',
-               username: 'zorry@ad.balkangraph.com',
-               password: 'qaz123wsx!@#' }
-var ad = new ActiveDirectory(config);
 
+
+var ad = new ActiveDirectory({ url: 'ldap://ad.balkangraph.com',
+  baseDN: 'dc=ad,dc=balkangraph,dc=com',
+  username: 'zorry@ad.balkangraph.com',
+  password: 'qaz123wsx!@#',
+  attributes: {
+    user: [ 'cn', 'mailmanager'],
+    group: [ 'distinguishedName', 'objectCategory', 'cn', 'description' ]
+  }
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 
 var groupName = 'EmployeesOrgChart';
  
-var ad = new ActiveDirectory(config);
+
+
+
 
 ad.getUsersForGroup(groupName, function(err, users) {
   if (err) {
@@ -32,7 +39,7 @@ ad.getUsersForGroup(groupName, function(err, users) {
   if (! users) console.log('Group: ' + groupName + ' not found.');
   else {
     var nodes = [];
-
+    console.log(users);
     for (i = 0; i < users.length; i++){
       var user = users[i];
       var u = {};
