@@ -71,38 +71,47 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 
 
-// var listOfGroupObjectsToListOfGroups = function(groups) {
-//   var listOfGroups = [];
-//   for (i = 0; i < groups.length; i++) {
-//     var group = groups[i].cn;
-//     listOfGroups.push(group);
-//   }
-//   console.log(listOfGroups);
-// }
+// list groups with memberOf property
 
+function add(groupName, list, callback) {
+  console.log(groupName);
+  console.log(list);
+callback;
+}
 
-// var getListOfGroups = function(groupName, callback) {
-
-//   ad.getGroupMembershipForGroup(groupName, function(err, groups) {
-//  //   console.log(groupName);
-//     if (err) {
-//       console.log('ERROR: ' +JSON.stringify(err));
-//       return;
-//     }
-   
-//     if (! groups) console.log('Group: ' + groupName + ' not found.');
-//     else {
-//    //   console.log(JSON.stringify(groups));
-//       callback(groupName, groups);
-//     }
-    
-
-//   });
- 
-// }
-
+function print() {
+console.loglog("done");
+}
   
 
+function cb(groupName, callback) {
+  ad.getGroupMembershipForGroup(groupName, function(err, groups) { 
+
+    var list = [];
+
+    if (err) {
+      console.log('ERROR: ' +JSON.stringify(err));
+      return;
+    }
+  
+    if (! groups) console.log('Group: ' + groupName + ' not found.');
+    else {
+
+     // console.log(JSON.stringify(groups));
+      for (j = 0; j < groups.length; j++) {
+        list.push(groups[j].cn); 
+      }
+
+    } 
+   add(groupName, list, print);
+
+  });
+  callback;
+}
+
+function done() {
+  console.log('donelist')
+}
 
 var listMemberships = function(groupsList) {
   
@@ -110,36 +119,15 @@ var listMemberships = function(groupsList) {
   for (i = 0; i < groupsList.length; i++) {
 
       var groupName = groupsList[i].name;
-      
 
-      ad.getGroupMembershipForGroup(groupName, function(err, groups) { 
-        
-        var list = [];
-
-        if (err) {
-          console.log('ERROR: ' +JSON.stringify(err));
-          return;
-        }
-      
-        if (! groups) console.log('Group: ' + groupName + ' not found.');
-        else {
-
-         // console.log(JSON.stringify(groups));
-          for (i = 0; i < groups.length; i++) {
-           // console.log(groups[i].cn);
-            list.push(groups[i].cn); 
-          }
-          
-        } 
-
-       console.log(list); //OK
-      });
-
+      cb(groupName, done);
     }
 }
 
 
+
 var query = 'CN=*OrgChart*';
+ 
  
 
 ad.findGroups(query, function(err, groups) {
@@ -167,10 +155,10 @@ ad.findGroups(query, function(err, groups) {
   
   });
 
-  console.log(orgChartGroups);
-  listMemberships(orgChartGroups);
+   listMemberships(orgChartGroups);
   
 });
+
 
 
   
