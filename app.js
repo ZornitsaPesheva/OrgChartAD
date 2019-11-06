@@ -73,16 +73,18 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 // list groups with memberOf property
 
+
+
 function add(groupName, list, callback) {
-  console.log(groupName);
-  console.log(list);
-callback;
+  
+  var g = {};
+  g.name = groupName;
+  g.list = list;  
+  console.log(g);
+  callback;
+  
 }
 
-function print() {
-console.loglog("done");
-}
-  
 
 function cb(groupName, callback) {
   ad.getGroupMembershipForGroup(groupName, function(err, groups) { 
@@ -103,15 +105,12 @@ function cb(groupName, callback) {
       }
 
     } 
-   add(groupName, list, print);
+   add(groupName, list);
 
   });
   callback;
 }
 
-function done() {
-  console.log('donelist')
-}
 
 var listMemberships = function(groupsList) {
   
@@ -120,7 +119,7 @@ var listMemberships = function(groupsList) {
 
       var groupName = groupsList[i].name;
 
-      cb(groupName, done);
+      cb(groupName);
     }
 }
 
