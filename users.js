@@ -30,6 +30,7 @@ var groupName = 'EmployeesOrgChart';
 
 
 
+
 ad.getUsersForGroup(groupName, function(err, users) {
   if (err) {
     console.log('ERROR: ' +JSON.stringify(err));
