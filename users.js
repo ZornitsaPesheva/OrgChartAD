@@ -29,7 +29,7 @@ var groupName = 'EmployeesOrgChart';
 
 
 function getManager(manager) {
-  var list = String.manager;
+  var list = manager;
   console.log(list);
 }
 
