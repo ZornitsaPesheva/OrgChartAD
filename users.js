@@ -16,7 +16,7 @@ var ad = new ActiveDirectory({ url: 'ldap://ad.balkangraph.com',
   username: 'zorry@ad.balkangraph.com',
   password: 'qaz123wsx!@#',
   attributes: {
-    user: [ 'cn', 'mailmanager'],
+    user: [ 'cn', 'manager'],
     group: [ 'distinguishedName', 'objectCategory', 'cn', 'description' ]
   }
 });
@@ -28,7 +28,10 @@ var groupName = 'EmployeesOrgChart';
  
 
 
-
+function getManager(manager) {
+  var list = String.manager;
+  console.log(list);
+}
 
 
 ad.getUsersForGroup(groupName, function(err, users) {
@@ -40,16 +43,17 @@ ad.getUsersForGroup(groupName, function(err, users) {
   if (! users) console.log('Group: ' + groupName + ' not found.');
   else {
     var nodes = [];
-    console.log(users);
+
     for (i = 0; i < users.length; i++){
       var user = users[i];
       var u = {};
       u.id = i;
-      u.name = user['givenName'];
+      u.name = user['cn'];
+      u.pid = getManager(user['manager']);
 
       nodes.push(u);
      }
-
+     console.log(nodes);
   }
 
   app.get('/', function(req, res){
