@@ -101,21 +101,20 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
  
 // }
 
-
+  
 
 
 var listMemberships = function(groupsList) {
   
-  var newGroupList = [];
 
   for (i = 0; i < groupsList.length; i++) {
 
       var groupName = groupsList[i].name;
-
-      var list = [];
-     
+      
 
       ad.getGroupMembershipForGroup(groupName, function(err, groups) { 
+        
+        var list = [];
 
         if (err) {
           console.log('ERROR: ' +JSON.stringify(err));
@@ -127,19 +126,16 @@ var listMemberships = function(groupsList) {
 
          // console.log(JSON.stringify(groups));
           for (i = 0; i < groups.length; i++) {
-
-            list.push(groups[i].cn); // have to be in callback ?
+           // console.log(groups[i].cn);
+            list.push(groups[i].cn); 
           }
           
         } 
 
+       console.log(list); //OK
       });
 
-      groupsList.memberOf = list; 
-      console.log(list);
-  }
-
-
+    }
 }
 
 
