@@ -28,8 +28,8 @@ var groupName = 'EmployeesOrgChart';
  
 
 
-function getManager(manager) {
-  var list = manager;
+function getManager(manager) { // not working
+  var list = manager.split(","); 
   console.log(list);
 }
 
