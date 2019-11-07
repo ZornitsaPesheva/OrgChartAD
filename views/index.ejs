@@ -21,14 +21,13 @@
 
 
     <script>
-      var testNodes = <%- nodes %>;
+      var adNodes = <%- nodes %>;
         var chart = new OrgChart(document.getElementById("tree"), { 
           nodeBinding: { 
-            field_0: "name" 
+            field_0: "id" 
           },
-          nodes: testNodes
-        });  
-      console.log(testNodes);
+          nodes: adNodes
+        }); 
     </script>
      
 

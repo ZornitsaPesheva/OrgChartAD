@@ -25,8 +25,6 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 
 var groupName = 'EmployeesOrgChart';
- 
-
 
 
 ad.getUsersForGroup(groupName, function(err, users) {
@@ -42,23 +40,25 @@ ad.getUsersForGroup(groupName, function(err, users) {
     for (i = 0; i < users.length; i++){
       var user = users[i];
       var u = {};
-      u.id = i;
       u.name = user['cn'];
       if (user['manager']) {
         var m = String(user['manager']);  
         var list = m.split(',');
         var manager = list[0].slice(3);  
         u.pid = manager;
+       
       }
-      
-     
+      u.id = u.name;
+      delete u.name;
       nodes.push(u);
      }
-     console.log(nodes);
+    // console.log(nodes);
+
+     app.get('/', function(req, res){
+      res.render('index', { nodes : JSON.stringify(nodes) });
+    });
   }
 
-  app.get('/', function(req, res){
-    res.render('index', { nodes : JSON.stringify(nodes) });
-  });
+  
 
 });
