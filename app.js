@@ -1,61 +1,59 @@
-const ad = require('./ad');
+const express = require('express')
+const app = express()
+const port = 3000
 
 
 
-ad.getGroupsWithMembership(function(err, tree){
-    
-    addId(tree);
-    var slinks = sLinks(tree);
+var ejs = require('ejs');
 
-   
-  //  addPid(tree);
+app.set('view engine', 'ejs');
 
-    console.log(tree);
-    console.log(slinks);
+var ActiveDirectory = require('activedirectory2');
+
+
+var ad = new ActiveDirectory({ url: 'ldap://ad.balkangraph.com',
+  baseDN: 'dc=ad,dc=balkangraph,dc=com',
+  username: 'zorry@ad.balkangraph.com',
+  password: 'qaz123wsx!@#',
+  attributes: {
+    user: [ 'cn', 'manager'],
+  }
 });
-  
-function addId(tree) {
 
-    for (i = 0; i < tree.length; i++){
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
-        tree[i].id = i; 
-        
-    }
 
-}
+var groupName = 'EmployeesOrgChart';
 
-// function addPid(tree) {
-//     for (i = 0; i < tree.length; i++) {
-//         if (tree[i].list.length > 0) {
-//             for (j = 0; j < tree[i].list.length; j++) {
-//                 var group = tree[i].list[j];
-//                   for (k = 0; k < tree.length; k++){
-//                       if (tree[k].name == group) tree[i].pid = tree[k].id;
-//                   }
-//             }
-//         }
-//     }
 
-// }
+ad.getUsersForGroup(groupName, function(err, users) {
+  if (err) {
+    console.log('ERROR: ' +JSON.stringify(err));
+    return;
+  }
+ 
+  if (! users) console.log('Group: ' + groupName + ' not found.');
+  else {
+    var nodes = [];
 
-function sLinks(tree) {
-    var slinks = [];
-    for (i = 0; i < tree.length; i++) {
-        if (tree[i].list.length > 0) {
-            for (j = 0; j < tree[i].list.length; j++) {
-                var group = tree[i].list[j];
-                  for (k = 0; k < tree.length; k++){
-                      if (tree[k].name == group) {
+    for (i = 0; i < users.length; i++){
+      var user = users[i];
+      var u = {};
+      u.name = user['cn'];
+      if (user['manager']) {
+        var m = String(user['manager']);  
+        var list = m.split(',');
+        var manager = list[0].slice(3);  
+        u.pid = manager;
+       
+      }
+      u.id = u.name;
+      delete u.name;
+      nodes.push(u);
+     }
 
-                        var link = {};
-                        link.from = tree[i].id;
-                        link.to = tree[k].id;
-
-                        slinks.push(link);
-                      }
-                  }
-            }
-        }
-    }
-    return slinks;
-}
+     app.get('/', function(req, res){
+      res.render('index', { nodes : JSON.stringify(nodes) });
+    });
+  }
+});
