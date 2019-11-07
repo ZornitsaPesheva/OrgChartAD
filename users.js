@@ -17,7 +17,6 @@ var ad = new ActiveDirectory({ url: 'ldap://ad.balkangraph.com',
   password: 'qaz123wsx!@#',
   attributes: {
     user: [ 'cn', 'manager'],
-    group: [ 'distinguishedName', 'objectCategory', 'cn', 'description' ]
   }
 });
 
@@ -52,13 +51,9 @@ ad.getUsersForGroup(groupName, function(err, users) {
       delete u.name;
       nodes.push(u);
      }
-    // console.log(nodes);
 
      app.get('/', function(req, res){
       res.render('index', { nodes : JSON.stringify(nodes) });
     });
   }
-
-  
-
 });
