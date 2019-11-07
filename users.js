@@ -28,11 +28,6 @@ var groupName = 'EmployeesOrgChart';
  
 
 
-function getManager(manager) { // not working
-  var list = manager.split(","); 
-  console.log(list);
-}
-
 
 ad.getUsersForGroup(groupName, function(err, users) {
   if (err) {
@@ -49,8 +44,14 @@ ad.getUsersForGroup(groupName, function(err, users) {
       var u = {};
       u.id = i;
       u.name = user['cn'];
-      u.pid = getManager(user['manager']);
-
+      if (user['manager']) {
+        var m = String(user['manager']);  
+        var list = m.split(',');
+        var manager = list[0].slice(3);  
+        u.pid = manager;
+      }
+      
+     
       nodes.push(u);
      }
      console.log(nodes);
