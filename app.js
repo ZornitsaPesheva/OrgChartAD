@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-
+var fs = require('fs');
 
 var ejs = require('ejs');
 
@@ -10,13 +10,20 @@ app.set('view engine', 'ejs');
 
 var ActiveDirectory = require('activedirectory2');
 
+// const customeParser = function(entry, raw, callback) { 
+//   if (raw.hasOwnProperty("thumbnailPhoto")) { 
+//     entry.thumbnailPhoto = raw.thumbnailPhoto; 
+//   } callback(entry) 
+// }
+
 
 var ad = new ActiveDirectory({ url: 'ldap://ad.balkangraph.com',
   baseDN: 'dc=ad,dc=balkangraph,dc=com',
   username: 'zorry@ad.balkangraph.com',
   password: 'qaz123wsx!@#',
   attributes: {
-    user: [ 'cn', 'manager'],
+    user: [ 'cn', 'manager', 'thumbnailPhoto'],
+ // entryParser: customeParser
   }
 });
 
@@ -24,6 +31,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 
 var groupName = 'EmployeesOrgChart';
+
 
 
 ad.getUsersForGroup(groupName, function(err, users) {
@@ -47,9 +55,18 @@ ad.getUsersForGroup(groupName, function(err, users) {
         u.pid = manager;
        
       }
+     
       u.id = u.name;
       delete u.name;
-      nodes.push(u);
+
+       var buf = Buffer.from(user['thumbnailPhoto']);
+
+       var b64 = 'data:image/png;base64, ' + buf.toString('base64');
+
+     // var b64 = user['thumbnailPhoto'].toString('base64');
+
+      u.img =  b64;
+       nodes.push(u);
      }
 
      app.get('/', function(req, res){

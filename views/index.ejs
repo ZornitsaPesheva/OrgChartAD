@@ -19,13 +19,23 @@
       <script src="https://balkangraph.com/js/latest/OrgChart.js"></script>
       <div id="tree"/>
 
+
     <script>
+      
+
+
       var adNodes = <%- nodes %>;
+
+
+
         var chart = new OrgChart(document.getElementById("tree"), { 
           nodeBinding: { 
-            field_0: "id" 
+            field_0: "id",
+            img_0: 'img'
           },
+                
           nodes: adNodes
+          
         }); 
     </script>
      
