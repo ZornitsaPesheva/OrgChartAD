@@ -59,16 +59,16 @@ ad.getUsersForGroup(groupName, function(err, users) {
       u.id = u.name;
       delete u.name;
 
-       var buf = Buffer.from(user['thumbnailPhoto']);
+      var buf = Buffer.from(user['thumbnailPhoto']);
 
-       var b64 = 'data:image/png;base64, ' + buf.toString('base64');
+    //   var b64 = 'data:image/png;base64,' + buf.toString('base64');
+       var b64 = 'data:image/svg+xml;base64,' + buf.toString('base64');
 
-     // var b64 = user['thumbnailPhoto'].toString('base64');
 
       u.img =  b64;
        nodes.push(u);
      }
-
+     console.log(Buffer.from(users[1]['thumbnailPhoto']).toString('base64'));
      app.get('/', function(req, res){
       res.render('index', { nodes : JSON.stringify(nodes) });
     });
