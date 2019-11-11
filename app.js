@@ -68,7 +68,7 @@ ad.getUsersForGroup(groupName, function(err, users) {
       u.img =  b64;
        nodes.push(u);
      }
-     console.log(Buffer.from(users[1]['thumbnailPhoto']).toString('base64'));
+   //  console.log(Buffer.from(users[1]['thumbnailPhoto']).toString('base64'));
      app.get('/', function(req, res){
       res.render('index', { nodes : JSON.stringify(nodes) });
     });
