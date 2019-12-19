@@ -20,7 +20,7 @@ var ActiveDirectory = require('activedirectory2');
 var ad = new ActiveDirectory({ url: 'ldap://ad.balkangraph.com',
   baseDN: 'dc=ad,dc=balkangraph,dc=com',
   username: 'zorry@ad.balkangraph.com',
-  password: 'qaz123wsx!@#',
+  password: 'pwdOfZorry',
   attributes: {
     user: [ 'cn', 'manager', 'thumbnailPhoto'],
  // entryParser: customeParser
