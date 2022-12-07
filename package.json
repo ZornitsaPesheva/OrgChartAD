@@ -19,6 +19,6 @@
   "dependencies": {
     "activedirectory2": "^1.3.0",
     "ejs": "^2.7.1",
-    "express": "^4.17.1"
+    "express": "^4.18.2"
   }
 }
